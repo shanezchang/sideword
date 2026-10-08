@@ -5,9 +5,11 @@
 ## 启动
 
 macOS / Linux，Python 3.9+，无需安装第三方 Python 依赖。
-在项目目录运行：
+克隆后直接运行：
 
 ```sh
+git clone https://github.com/shanezchang/sideword.git
+cd sideword
 python3 app.py --page-size 10
 ```
 

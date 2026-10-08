@@ -13,9 +13,11 @@ It is a small Python application with no third-party runtime dependencies.
 Requires Python 3.9+ and a terminal with curses support (macOS or Linux).
 Windows native terminals are not supported; try WSL.
 
-From this repository's directory:
+Clone the repository and run it:
 
 ```sh
+git clone https://github.com/shanezchang/sideword.git
+cd sideword
 python3 app.py --page-size 10
 # Or:
 ./ielts --page-size 10
