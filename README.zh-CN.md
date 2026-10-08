@@ -5,7 +5,7 @@
 
 给单词留一点空间。在终端里，慢慢把英语学起来。
 
-[English](README.md) · [使用指南](docs/guide.md) · [导入词库](docs/word-books.md) · [参与开发](CONTRIBUTING.md)
+[官网](https://sideword.vercel.app/zh/) · [English](README.md) · [使用指南](docs/guide.md) · [导入词库](docs/word-books.md) · [参与开发](CONTRIBUTING.md)
 
 ![Sideword 五词学习界面](docs/assets/preview.svg)
 

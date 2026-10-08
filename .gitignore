@@ -17,3 +17,7 @@ build/
 htmlcov/
 books/
 coverage.xml
+node_modules/
+.vercel/
+site/test-results/
+site/playwright-report/

@@ -5,13 +5,18 @@ feel at home beside an editor: useful immediately, with very little ceremony.
 
 ## Identity
 
-The `[/]` mark combines two page edges with a diagonal cursor. The SVG is three
-strokes; the terminal equivalent is three ASCII characters. The lowercase name
-uses the terminal's existing monospace face. The mark appears in the first rendered
-header, not in a separate splash screen: no forced delay or animation.
+The web/documentation mark is a folded S: a turning page and a return to a word.
+The lowercase wordmark uses Manrope 750 with tighter spacing, outlined into SVG
+so it does not depend on fonts installed on a visitor's machine. Generate assets
+with `scripts/render_brand.py`; Manrope's OFL notice accompanies the assets.
+Website layout and tokens live in `site/DESIGN.md`.
 
-Documentation colors: ink `#242827`, paper `#ffffff`, teal `#247d73`; dark variants
-use text `#e4e8e5`, canvas `#171b1a` and accent `#7db7ad`. The application inherits
+The terminal keeps its compact ASCII `[/]` signature and the user's monospace face.
+It appears in the first rendered header, not in a separate splash screen: no forced
+delay or animation. Terminal rendering cannot display the website's vector logo.
+
+Brand colors: ink `#163630`, paper `#ffffff`, teal `#14776b`; dark wordmarks
+use text `#e9f3ed`. The application inherits
 terminal foreground/background and its cyan ANSI accent instead of overriding a
 user's theme. `NO_COLOR` leaves a readable monochrome interface.
 

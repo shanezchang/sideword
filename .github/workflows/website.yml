@@ -1,0 +1,28 @@
+name: Website
+on:
+  push:
+    paths: ['site/**', '.github/workflows/website.yml']
+  pull_request:
+    paths: ['site/**', '.github/workflows/website.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: site
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v7.1.0
+        with:
+          node-version: '24'
+          cache: npm
+          cache-dependency-path: site/package-lock.json
+      - run: npm ci
+      - run: npx prettier --check '*.mjs' '*.js' '*.css' '*.json' 'tests/*.mjs'
+      - run: npx playwright install --with-deps chromium
+      - run: npm test

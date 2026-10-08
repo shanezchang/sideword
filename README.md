@@ -5,7 +5,7 @@
 
 A quiet place for words. Learn English without leaving your terminal.
 
-[中文](README.zh-CN.md) · [Guide](docs/guide.md) · [Word books](docs/word-books.md) · [Contributing](CONTRIBUTING.md)
+[Website](https://sideword.vercel.app/) · [中文](README.zh-CN.md) · [Guide](docs/guide.md) · [Word books](docs/word-books.md) · [Contributing](CONTRIBUTING.md)
 
 ![Sideword's five-word learning view](docs/assets/preview.svg)
 
