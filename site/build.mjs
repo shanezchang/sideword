@@ -20,6 +20,11 @@ await cp(
 );
 await cp("styles.css", "dist/assets/styles.css");
 await cp("app.js", "dist/assets/app.js");
+await cp("analytics.js", "dist/assets/analytics.js");
+await cp(
+  "node_modules/@vercel/analytics/dist/index.mjs",
+  "dist/assets/vercel-analytics.mjs",
+);
 const mark = await readFile("public/assets/mark.svg", "utf8");
 for (const [key, t] of Object.entries(locales)) {
   const schema = {
@@ -44,6 +49,7 @@ for (const [key, t] of Object.entries(locales)) {
   };
   const html = `<!doctype html>
 <html lang="${t.lang}"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="google-site-verification" content="oRful_sYpY7YjApxwjoJMXQQbFEZFEqeQG7a9V4vMcQ">
 <title>${t.title}</title><meta name="description" content="${escape(t.description)}"><meta name="theme-color" content="#14776b">
 <link rel="canonical" href="${origin + t.path}"><link rel="alternate" hreflang="en" href="${origin}/"><link rel="alternate" hreflang="zh-CN" href="${origin}/zh/"><link rel="alternate" hreflang="x-default" href="${origin}/">
 <meta property="og:type" content="website"><meta property="og:site_name" content="Sideword"><meta property="og:title" content="${t.title}"><meta property="og:description" content="${escape(t.description)}"><meta property="og:url" content="${origin + t.path}"><meta property="og:image" content="${origin}/assets/social.png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:locale" content="${key === "zh" ? "zh_CN" : "en_US"}"><meta name="twitter:card" content="summary_large_image">

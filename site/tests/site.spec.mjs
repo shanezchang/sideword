@@ -27,6 +27,7 @@ for (const [path, lang] of [
     expect(response.status()).toBe(200);
     expect(html).toContain("<h1>");
     expect(html).toContain("application/ld+json");
+    expect(html).toContain('name="google-site-verification"');
     const errors = [];
     page.on("pageerror", (e) => errors.push(e.message));
     await page.goto(path);

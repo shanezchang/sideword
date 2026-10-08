@@ -1,3 +1,5 @@
+import "./analytics.js";
+
 const {
   words,
   labels: t,

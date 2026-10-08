@@ -124,7 +124,7 @@ export const locales = {
       ],
       [
         "Does the website record my learning?",
-        "No. The demonstration runs only in this page and resets on reload. There are no website accounts, analytics scripts or learning-data uploads. Hosting providers may retain standard access logs.",
+        "No learning records are uploaded. The demo resets on reload; terminal books and progress stay on your machine. The public website uses cookie-free Vercel Web Analytics for aggregate visits, pages, referrers and device information. We remove page query strings and fragments and skip analytics when Do Not Track or Global Privacy Control is enabled. Hosting providers may retain standard access logs.",
       ],
     ],
     footer: "Made by Shane Chang. Built for the small gaps in a day.",
@@ -220,7 +220,7 @@ export const locales = {
       ],
       [
         "官网会保存我的学习数据吗？",
-        "不会。网页演示只在当前页面运行，刷新即重置。官网没有账号、统计脚本，也不上传学习记录；托管服务商可能保留常规访问日志。",
+        "不上传学习记录。网页演示刷新即重置，终端词库与学习进度保留在你的设备上。公开官网使用不依赖 Cookie 的 Vercel Web Analytics 汇总访问量、页面、来源和设备信息；上报前移除页面网址的查询参数和片段，并在浏览器开启 Do Not Track 或 Global Privacy Control 时停用统计。托管服务商可能保留常规访问日志。",
       ],
     ],
     footer: "Shane Chang 制作。给日常的间隙，留几个单词。",

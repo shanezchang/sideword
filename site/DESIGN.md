@@ -29,7 +29,8 @@ and a review timeline; the mark is the only ornamental brand element.
 ## Behavior and boundaries
 
 Two complete static pages, / and /zh/, with reciprocal language links and metadata.
-No automatic locale redirection, user tracking, login, backend or database.
+No automatic locale redirection, login, backend or database. Production-only,
+cookie-free aggregate website analytics respects DNT/GPC; no learning telemetry.
 Demo state is session-only and does not claim to run the real scheduling engine.
 Copy has success/failure feedback; no-JS still exposes the full install command.
 No autoplay or decorative motion. Honor reduced motion and visible keyboard focus.

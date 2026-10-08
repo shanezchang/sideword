@@ -3,7 +3,7 @@
 English: https://sideword.vercel.app/ · 中文: https://sideword.vercel.app/zh/
 
 Two pre-rendered pages and a small progressive-enhancement script. No framework
-runtime, functions, database, account, analytics or learning-data API. Vercel serves
+runtime, functions, database, account or learning-data API. Vercel serves
 the generated `dist/` directory. Node is needed to build, not to browse.
 
 ```sh
@@ -53,3 +53,24 @@ No fabricated reviews, ratings or Google indexing promises. Search Console prope
 verification and sitemap submission have not been performed; the owner can do those
 later. Serving crawlable pages and receiving a GitHub backlink does not guarantee
 that Google will index or rank the site. No domain purchases are required.
+
+## Website analytics
+
+Dashboard: https://vercel.com/shanes-projects-025e82ba/sideword/analytics
+
+The official, pinned `@vercel/analytics` browser module is copied at build time.
+Only the production hostname loads it. DNT and GPC disable collection; page URL
+queries and fragments are removed before sending. There are no learning events,
+accounts, cookies added by this integration, or terminal-app telemetry. The demo
+works if analytics is blocked. Update `analytics.js` when changing domains.
+
+The current Hobby plan includes 50,000 events/month across the team and a one-month
+reporting window. It does not include custom events: command copies, GitHub clicks
+and release-link clicks are **not** measured. Do not manufacture pageviews to
+simulate click events. A release visit or asset download is not a completed install.
+No paid upgrade is enabled. Check current limits before changing the integration:
+https://vercel.com/docs/analytics/limits-and-pricing
+
+Review visitors, pageviews, referrers and devices after real traffic arrives.
+Export reports periodically from the dashboard if longer history is needed; past
+traffic cannot be recovered. Automated tests must not spoof real visitors.
