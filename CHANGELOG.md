@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.4.0b1 — macOS installation preview
+
+- Standalone Apple Silicon bundle with Python and original demo data included.
+- One-command user-local installer, download checksum verification, and double-click installation.
+- Existing launchers backed up; learning data and custom books remain untouched.
+- Frozen terminal smoke test and macOS 14 bundle CI.
+- Ad-hoc signed only: Developer ID signing and Apple notarization are not yet available.
+
 ## 0.3.0
 
 - Installable `src/sideword` package and `sideword` console command.

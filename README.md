@@ -17,6 +17,21 @@ spaced review. No account, server, telemetry or network connection during study.
 
 ## Start here
 
+**One-command Mac install** (Apple Silicon, macOS 14+; no Python or uv needed):
+
+```sh
+curl --proto '=https' --tlsv1.2 -fsSL https://github.com/shanezchang/sideword/releases/download/v0.4.0-beta.1/install.sh | /bin/bash
+```
+
+Open a new terminal and run `sideword`, or launch `~/.local/bin/sideword` immediately.
+Prefer a download? [Get the ZIP](https://github.com/shanezchang/sideword/releases/tag/v0.4.0-beta.1),
+extract it, then double-click `Install.command`.
+
+This is an **unnotarized preview**. macOS may require explicit approval to open it;
+do not disable system security. [Installation details and uninstall](docs/install-macos.md).
+
+### Source install / Linux / developers
+
 With [uv](https://docs.astral.sh/uv/getting-started/installation/) installed:
 
 ```sh

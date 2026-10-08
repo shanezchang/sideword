@@ -1,0 +1,49 @@
+name: macOS preview
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'src/**'
+      - 'packaging/**'
+      - 'scripts/**'
+      - 'tests/**'
+      - 'pyproject.toml'
+      - 'uv.lock'
+      - 'docs/install-macos.md'
+      - '.github/workflows/macos-preview.yml'
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  bundle:
+    runs-on: macos-14
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - uses: astral-sh/setup-uv@v10.2.0
+        with:
+          python-version: '3.14'
+          enable-cache: true
+      - run: uv sync --locked --group bundle
+      - run: uv run --frozen pytest
+      - run: uv run --frozen ruff check .
+      - run: uv run --frozen ruff format --check .
+      - run: uv run --frozen --group bundle python scripts/build_macos.py
+      - name: Verify archive and install without Python on PATH
+        shell: bash
+        run: |
+          cd dist/macos
+          shasum -a 256 -c SHA256SUMS
+          ditto -x -k sideword-macos-arm64.zip "$RUNNER_TEMP/unpacked"
+          install_home=$(mktemp -d "$RUNNER_TEMP/sideword-home.XXXXXX")
+          HOME="$install_home" PATH=/usr/bin:/bin /bin/bash "$RUNNER_TEMP/unpacked/Sideword/install.sh" --local "$RUNNER_TEMP/unpacked/Sideword" --no-modify-path
+          "$install_home/.local/bin/sideword" --version
+          cd "$GITHUB_WORKSPACE"
+          uv run --frozen python scripts/smoke_terminal.py "$install_home/.local/bin/sideword"
+      - uses: actions/upload-artifact@v7.0.2
+        with:
+          name: sideword-macos-arm64
+          path: dist/macos/*
+          if-no-files-found: error

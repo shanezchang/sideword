@@ -16,6 +16,21 @@ Sideword 把单词、音标、中文释义和双语例句放进终端。记住�
 
 ## 开始学习
 
+**Mac 一条命令安装**（Apple Silicon，macOS 14+；无需 Python / uv）：
+
+```sh
+curl --proto '=https' --tlsv1.2 -fsSL https://github.com/shanezchang/sideword/releases/download/v0.4.0-beta.1/install.sh | /bin/bash
+```
+
+新开终端输入 `sideword`，或直接运行 `~/.local/bin/sideword`。
+也可以[下载 ZIP](https://github.com/shanezchang/sideword/releases/tag/v0.4.0-beta.1)，
+解压后双击 `Install.command`。
+
+这是**未公证预览版**，macOS 可能要求单独批准打开；不要关闭系统安全保护。
+[安装位置、升级、卸载与安全提示](docs/install-macos.md)。
+
+### 从源码运行 / Linux / 开发者
+
 先安装 [uv](https://docs.astral.sh/uv/getting-started/installation/)，然后：
 
 ```sh

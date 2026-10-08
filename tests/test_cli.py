@@ -4,6 +4,7 @@ import sys
 
 import pytest
 
+from sideword import __version__
 from sideword.cli import main
 from sideword.config import data_directory
 
@@ -13,7 +14,7 @@ def test_installed_module_entrypoint():
         [sys.executable, "-m", "sideword", "--version"], capture_output=True, text=True
     )
     assert result.returncode == 0
-    assert result.stdout.startswith("sideword 0.3.")
+    assert result.stdout.strip() == f"sideword {__version__}"
 
 
 @pytest.mark.parametrize("value", ["0", "-5", "1.5", "abc"])
