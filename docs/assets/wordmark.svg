@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="440" height="96" viewBox="0 0 440 96" role="img" aria-labelledby="title desc">
+  <title id="title">Sideword</title>
+  <desc id="desc">Two page edges and a diagonal cursor, beside a lowercase wordmark.</desc>
+  <g fill="none" stroke="#247d73" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M28 27H16V69H28M56 27H68V69H56M49 30L35 66"/>
+  </g>
+  <text x="92" y="64" fill="#242827" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="43" letter-spacing="-2">sideword</text>
+</svg>

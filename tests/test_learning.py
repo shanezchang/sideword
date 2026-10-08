@@ -1,9 +1,15 @@
 import tempfile
 import unittest
-from unittest.mock import Mock, patch
 from pathlib import Path
-from core import BOOKS, Store, load_book
-from app import Desk, clip, width, wrap
+from unittest.mock import Mock, patch
+
+from sideword.storage import Store
+from sideword.ui.app import Desk
+from sideword.ui.text import clip, width, wrap
+from sideword.vocabulary import Library
+
+BOOKS = Library().catalog
+load_book = Library().load
 
 
 class LearningTests(unittest.TestCase):
@@ -53,9 +59,7 @@ class LearningTests(unittest.TestCase):
         word = desk.study_word()
         desk.speaker.play.assert_called_with(word["name"], "uk", False)
         desk.learning_key("2")
-        self.assertEqual(
-            self.store.learned("sample")[word["key"]]["familiarity"], "familiar"
-        )
+        self.assertEqual(self.store.learned("sample")[word["key"]]["familiarity"], "familiar")
         self.assertNotIn(word["key"], desk.study_state["queue"])
         desk.learning_key("l")
         self.assertEqual(desk.study_state["index"], 5)
@@ -129,7 +133,7 @@ class LearningTests(unittest.TestCase):
 
     def test_random_learning_is_complete_and_survives_restart(self):
         words = load_book("sample")
-        with patch("core.random.shuffle", side_effect=lambda q: q.reverse()) as shuffle:
+        with patch("sideword.storage.random.shuffle", side_effect=lambda q: q.reverse()) as shuffle:
             state = self.store.study("ielts", words)
             shuffle.assert_called_once()
         self.assertEqual(state["queue"], list(reversed(words)))
@@ -138,16 +142,14 @@ class LearningTests(unittest.TestCase):
         self.store.save_study("ielts", state)
         self.store.db.close()
         self.store = Store(self.path)
-        with patch("core.random.shuffle") as shuffle:
+        with patch("sideword.storage.random.shuffle") as shuffle:
             self.assertEqual(self.store.study("ielts", words), state)
             shuffle.assert_not_called()
 
     def test_legacy_order_upgrade_preserves_position(self):
         words = dict.fromkeys(["a", "b", "c", "d", "e"])
-        self.store.save_study(
-            "ielts", {"queue": list(words), "index": 1, "mode": "all"}
-        )
-        with patch("core.random.shuffle", side_effect=lambda q: q.reverse()):
+        self.store.save_study("ielts", {"queue": list(words), "index": 1, "mode": "all"})
+        with patch("sideword.storage.random.shuffle", side_effect=lambda q: q.reverse()):
             state = self.store.study("ielts", words)
         self.assertEqual(state["index"], 1)
         self.assertEqual(state["queue"], ["a", "b", "e", "d", "c"])
@@ -179,9 +181,7 @@ class LearningTests(unittest.TestCase):
     def test_star_does_not_consume_new_word_and_books_are_isolated(self):
         self.store.star("ielts", "cancel")
         self.assertEqual(self.store.stats("ielts", self.words)["new"], 1)
-        self.assertEqual(
-            self.store.start("ielts", self.words, "starred")["queue"], ["cancel"]
-        )
+        self.assertEqual(self.store.start("ielts", self.words, "starred")["queue"], ["cancel"])
         self.assertEqual(self.store.start("bible", self.words, "starred")["queue"], [])
 
     def test_typing_and_correction_state_machine(self):
@@ -213,24 +213,16 @@ class LearningTests(unittest.TestCase):
     def test_learning_does_not_change_spelling_results(self):
         self.store.view_word("ielts", "cancel", "unfamiliar")
         self.assertEqual(self.store.stats("ielts", self.words)["seen"], 0)
-        self.assertEqual(
-            self.store.study("ielts", self.words, "unfamiliar")["queue"], ["cancel"]
-        )
+        self.assertEqual(self.store.study("ielts", self.words, "unfamiliar")["queue"], ["cancel"])
         self.store.view_word("ielts", "cancel", "familiar")
-        self.assertEqual(
-            self.store.study("ielts", self.words, "unfamiliar")["queue"], []
-        )
-        self.assertEqual(
-            self.store.learned("ielts")["cancel"]["familiarity"], "familiar"
-        )
+        self.assertEqual(self.store.study("ielts", self.words, "unfamiliar")["queue"], [])
+        self.assertEqual(self.store.learned("ielts")["cancel"]["familiarity"], "familiar")
 
     def test_remembered_words_remain_scheduled_and_intervals_expand(self):
         first = self.store.rate_word("ielts", "cancel", True, now=1000)
         self.assertEqual(first["due"], 87400)
         self.assertEqual(self.store.due_words("ielts", self.words, now=87399), [])
-        self.assertEqual(
-            self.store.due_words("ielts", self.words, now=87400), ["cancel"]
-        )
+        self.assertEqual(self.store.due_words("ielts", self.words, now=87400), ["cancel"])
         second = self.store.rate_word("ielts", "cancel", True, now=87400)
         self.assertEqual(second["due"], 87400 + 3 * 86400)
         forgotten = self.store.rate_word("ielts", "cancel", False, now=90000)
@@ -243,9 +235,7 @@ class LearningTests(unittest.TestCase):
         early = self.store.rate_word("ielts", "cancel", True, now=1001)
         self.assertEqual(early["stage"], 1)
         self.assertEqual(early["due"], 87400)
-        self.assertEqual(
-            self.store.db.execute("SELECT count(*) FROM review_log").fetchone()[0], 1
-        )
+        self.assertEqual(self.store.db.execute("SELECT count(*) FROM review_log").fetchone()[0], 1)
 
     def test_due_queue_persists_and_browsing_does_not_delay_it(self):
         self.store.rate_word("ielts", "cancel", False, now=1000)
@@ -256,9 +246,7 @@ class LearningTests(unittest.TestCase):
             self.store.study("ielts", self.words, "review", now=1600)["queue"],
             ["cancel"],
         )
-        self.assertEqual(
-            self.store.study("bible", self.words, "review", now=1600)["queue"], []
-        )
+        self.assertEqual(self.store.study("bible", self.words, "review", now=1600)["queue"], [])
 
     def test_review_requires_reveal_before_rating_and_then_advances(self):
         self.store.rate_word("ielts", "cancel", False, now=0)
@@ -282,9 +270,7 @@ class LearningTests(unittest.TestCase):
         state = self.store.study("sample", words)
         state["index"] = 5
         self.store.save_study("sample", state)
-        self.store.save_study(
-            "sample", {"queue": ["cancel"], "index": 0, "mode": "lookup"}
-        )
+        self.store.save_study("sample", {"queue": ["cancel"], "index": 0, "mode": "lookup"})
         self.store.db.close()
         self.store = Store(self.path)
         self.assertEqual(self.store.study("sample", words)["index"], 5)

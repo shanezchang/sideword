@@ -70,9 +70,7 @@ class Speaker:
         with self.lock:
             token = self.generation
             self.status = "正在准备发音…"
-        threading.Thread(
-            target=self._speak, args=(text, accent, slow, token), daemon=True
-        ).start()
+        threading.Thread(target=self._speak, args=(text, accent, slow, token), daemon=True).start()
 
     def _run(self, args, token, text=None):
         with self.lock:
@@ -97,9 +95,7 @@ class Speaker:
             if token != self.generation:
                 return None
         if process.returncode or error:
-            raise RuntimeError(
-                error.decode(errors="replace").strip() or "语音服务未完成"
-            )
+            raise RuntimeError(error.decode(errors="replace").strip() or "语音服务未完成")
         return True
 
     def _speak(self, text, accent, slow, token):
@@ -112,14 +108,10 @@ class Speaker:
             path = self.cache / (digest + ".aiff")
             if not has_audio(path):
                 partial = self.cache / (digest + f".{uuid.uuid4().hex}.partial.aiff")
-                if not self._run(
-                    ["say", "-v", voice, "-r", rate, "-o", str(partial)], token, text
-                ):
+                if not self._run(["say", "-v", voice, "-r", rate, "-o", str(partial)], token, text):
                     return
                 if not has_audio(partial):
-                    raise RuntimeError(
-                        "语音服务返回了空音频，请检查系统英语声音是否可用"
-                    )
+                    raise RuntimeError("语音服务返回了空音频，请检查系统英语声音是否可用")
                 partial.replace(path)
             with self.lock:
                 if token != self.generation:

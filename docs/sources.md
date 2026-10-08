@@ -9,8 +9,8 @@ is copied or linked into this repository.
 - [不背单词](https://bbdc.cn/index): public contextual-learning and review principles;
   its proprietary algorithm is not reproduced. Sideword has its own simple schedule.
 
-`data/sample.json` contains independently authored short Chinese explanations and
-British IPA for 30 common words. `data/examples.json` contains AI-assisted original
+`src/sideword/data/sample.json` contains independently authored short Chinese explanations and
+British IPA for 30 common words. `src/sideword/data/examples.json` contains AI-assisted original
 practice sentences, translations and collocations. They are demonstration content,
 not copied textbook excerpts, official IELTS questions or expert-certified lessons.
 Both are covered by this repository's MIT license. Corrections are welcome.

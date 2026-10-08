@@ -1,4 +1,4 @@
-name: Tests
+name: CI
 on: [push, pull_request]
 permissions:
   contents: read
@@ -9,14 +9,35 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu-latest, macos-latest]
-        python: ['3.9', '3.13']
+        python: ['3.12', '3.13', '3.14']
     steps:
       - uses: actions/checkout@v7
         with:
           persist-credentials: false
-      - uses: actions/setup-python@v7
+      - uses: astral-sh/setup-uv@v10.2.0
         with:
           python-version: ${{ matrix.python }}
-      - run: python -m unittest -v
-      - run: python app.py --check
-      - run: python -m compileall -q app.py core.py speech.py
+          enable-cache: true
+      - run: uv sync --locked
+      - run: uv run --frozen pytest
+      - run: uv run --frozen sideword --check
+  quality:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - uses: astral-sh/setup-uv@v10.2.0
+        with:
+          python-version: '3.14'
+          enable-cache: true
+      - run: uv sync --locked
+      - run: uv run --frozen ruff check .
+      - run: uv run --frozen ruff format --check .
+      - run: uv build --no-sources
+      - name: Verify installed wheel outside the checkout
+        run: |
+          wheel=$(find "$GITHUB_WORKSPACE/dist" -name '*.whl' -print -quit)
+          cd "$(mktemp -d)"
+          uv run --isolated --no-project --with "$wheel" sideword --version
+          uv run --isolated --no-project --with "$wheel" sideword --check

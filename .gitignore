@@ -9,5 +9,11 @@ __pycache__/
 .DS_Store
 .env
 .env.*
-data/IELTS_3_T.json
-data/IELTSVocabularyBible.json
+dist/
+build/
+*.egg-info/
+.pytest_cache/
+.coverage*
+htmlcov/
+books/
+coverage.xml
