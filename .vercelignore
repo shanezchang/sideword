@@ -6,6 +6,10 @@
 .env*
 dist/
 build/
+.coverage*
+.pytest_cache/
+.ruff_cache/
+htmlcov/
 site/dist/
 site/test-results/
 site/playwright-report/
