@@ -1,0 +1,13 @@
+__pycache__/
+.venv/
+.state/
+.ruff_cache/
+*.sqlite3*
+*.aiff
+*.aif
+*.wav
+.DS_Store
+.env
+.env.*
+data/IELTS_3_T.json
+data/IELTSVocabularyBible.json
