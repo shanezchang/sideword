@@ -49,10 +49,12 @@ and x-default, descriptive titles, descriptions and SoftwareApplication JSON-LD.
 `robots.txt` allows crawling and points at `sitemap.xml`. The sitemap lists only
 canonical pages. Social cards and favicon are local assets; content requires no JS.
 
-No fabricated reviews, ratings or Google indexing promises. Search Console property
-verification and sitemap submission have not been performed; the owner can do those
-later. Serving crawlable pages and receiving a GitHub backlink does not guarantee
-that Google will index or rank the site. No domain purchases are required.
+No fabricated reviews, ratings or Google indexing promises. Search Console uses
+the URL-prefix property `https://sideword.vercel.app/`, verified by the public HTML
+meta tag in `build.mjs`. Keep this tag on future deployments to retain ownership.
+The submitted sitemap is `https://sideword.vercel.app/sitemap.xml`.
+Serving crawlable pages, verification and submission do not guarantee indexing.
+No domain purchases are required.
 
 ## Website analytics
 
@@ -74,3 +76,15 @@ https://vercel.com/docs/analytics/limits-and-pricing
 Review visitors, pageviews, referrers and devices after real traffic arrives.
 Export reports periodically from the dashboard if longer history is needed; past
 traffic cannot be recovered. Automated tests must not spoof real visitors.
+
+Authenticated, read-only CLI reporting from the repository root:
+
+```sh
+vercel project inspect --non-interactive
+vercel metrics vercel.analytics.page_view.count --since 24h --group-by requestPath --format=json
+vercel metrics vercel.analytics.page_view.count --since 7d --group-by referrerHostname --format=json
+```
+
+An empty response means no reported data for that query, not proof that nobody
+visited: reporting delay, browser privacy settings and blockers affect collection.
+Search impressions and search clicks belong in Search Console, not this report.

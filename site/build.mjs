@@ -25,6 +25,10 @@ await cp(
   "node_modules/@vercel/analytics/dist/index.mjs",
   "dist/assets/vercel-analytics.mjs",
 );
+await cp(
+  "node_modules/@vercel/analytics/LICENSE",
+  "dist/assets/vercel-analytics-LICENSE.txt",
+);
 const mark = await readFile("public/assets/mark.svg", "utf8");
 for (const [key, t] of Object.entries(locales)) {
   const schema = {
