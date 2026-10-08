@@ -38,6 +38,9 @@ override for a future custom domain; update canonical URLs and sitemap together.
 
 Check the explicit owner/project with `vercel project inspect --non-interactive`
 before deployment. GitHub `main` is the production source once connected.
+For a manual CLI deployment, run from the **repository root**, not `site/`, because
+the Vercel project's root directory is already `site`. The root `.vercelignore`
+excludes local environments, generated packages, credentials and test artifacts.
 
 ## Search visibility
 
