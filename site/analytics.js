@@ -11,7 +11,12 @@ export function analyticsAllowed(location, navigator) {
 export function sanitizeEvent(event) {
   try {
     const url = new URL(event.url);
-    if (event.type !== "pageview" || url.origin !== "https://sideword.vercel.app" || !["/", "/zh/"].includes(url.pathname)) return null;
+    if (
+      event.type !== "pageview" ||
+      url.origin !== "https://sideword.vercel.app" ||
+      !["/", "/zh/"].includes(url.pathname)
+    )
+      return null;
     url.search = "";
     url.hash = "";
     return { ...event, url: url.href };
