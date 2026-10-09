@@ -5,7 +5,7 @@
   "scripts": {
     "build": "node build.mjs",
     "dev": "node serve.mjs",
-    "test": "npm run build && playwright test"
+    "test": "node --test analytics.test.mjs && npm run build && playwright test"
   },
   "dependencies": {
     "@fontsource-variable/manrope": "5.3.0",
