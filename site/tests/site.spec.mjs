@@ -33,6 +33,10 @@ for (const [path, lang] of [
     await page.goto(path);
     await expect(page.locator("html")).toHaveAttribute("lang", lang);
     await expect(page.locator("h1")).toHaveCount(1);
+    await expect(page.locator('footer a[href$="/SECURITY.md"]')).toBeVisible();
+    await expect(page.locator(".preview")).toContainText(
+      lang === "en" ? "not yet Apple-notarized" : "未获 Apple 公证",
+    );
     await expect(page.locator("link[rel=canonical]")).toHaveAttribute(
       "href",
       `https://sideword.vercel.app${path}`,

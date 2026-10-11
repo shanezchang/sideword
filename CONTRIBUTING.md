@@ -5,15 +5,16 @@ to the learning model, runtime dependencies or supported platforms.
 
 ## Development
 
-Install [uv](https://docs.astral.sh/uv/getting-started/installation/), then:
+Install [uv](https://docs.astral.sh/uv/getting-started/installation/), then run the
+[maintenance setup and checks](docs/maintaining.md). Use both sync steps there:
+prepare the locked build dependencies first, then install the project without
+isolated backend resolution. The tests exercise the real editable backend, so the
+`build` group is required even when you are not making release artifacts.
+
+After setup, start the terminal app with:
 
 ```sh
-uv sync --locked
-uv run sideword --quiet
-uv run pytest
-uv run ruff check .
-uv run ruff format --check .
-uv build
+uv run --frozen --group build sideword --quiet
 ```
 
 Python 3.14 is the development default; CI also checks 3.12 and 3.13. Runtime code

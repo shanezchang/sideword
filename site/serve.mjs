@@ -13,7 +13,7 @@ const types = {
   ".txt": "text/plain",
   ".xml": "application/xml",
 };
-createServer(async (req, res) => {
+const server = createServer(async (req, res) => {
   const url = new URL(req.url, "http://localhost");
   let file = resolve(root, "." + decodeURIComponent(url.pathname));
   if (file !== root && !file.startsWith(root + "/")) {
@@ -32,6 +32,7 @@ createServer(async (req, res) => {
     res.writeHead(404, { "Content-Type": "text/html" });
     res.end(await readFile(root + "/404.html"));
   }
-}).listen(Number(process.env.PORT || 4173), "127.0.0.1", () =>
-  console.log("Sideword website: http://127.0.0.1:4173"),
+});
+server.listen(Number(process.env.PORT || 4173), "127.0.0.1", () =>
+  console.log(`Sideword website: http://127.0.0.1:${server.address().port}`),
 );

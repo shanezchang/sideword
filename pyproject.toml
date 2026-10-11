@@ -32,12 +32,13 @@ Source = "https://github.com/shanezchang/sideword"
 [dependency-groups]
 dev = ["pytest>=8,<10", "pytest-cov>=6,<8", "ruff>=0.11,<1"]
 bundle = ["pyinstaller==6.22.0"]
+build = ["hatchling>=1.27,<2", "editables~=0.3"]
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/sideword"]
 
 [tool.hatch.build.targets.sdist]
-include = ["/src", "/tests", "/docs", "/scripts", "/packaging", "/README.md", "/README.zh-CN.md", "/CONTRIBUTING.md", "/LICENSE", "/CHANGELOG.md", "/pyproject.toml", "/uv.lock", "/.python-version"]
+include = ["/src", "/tests", "/docs", "/scripts", "/packaging", "/README.md", "/README.zh-CN.md", "/CONTRIBUTING.md", "/SECURITY.md", "/.github/workflows", "/LICENSE", "/CHANGELOG.md", "/pyproject.toml", "/uv.lock", "/.python-version"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

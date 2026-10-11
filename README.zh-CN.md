@@ -27,7 +27,7 @@ curl --proto '=https' --tlsv1.2 -fsSL https://github.com/shanezchang/sideword/re
 解压后双击 `Install.command`。
 
 这是**未公证预览版**，macOS 可能要求单独批准打开；不要关闭系统安全保护。
-[安装位置、升级、卸载与安全提示](docs/install-macos.md)。
+[安装、备份、回退、卸载与安全提示](docs/install-macos.md) · [私密安全报告](SECURITY.md)。
 
 ### 从源码运行 / Linux / 开发者
 
