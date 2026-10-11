@@ -3,15 +3,6 @@ on:
   workflow_dispatch:
   push:
     branches: [main]
-    paths:
-      - 'src/**'
-      - 'packaging/**'
-      - 'scripts/**'
-      - 'tests/**'
-      - 'pyproject.toml'
-      - 'uv.lock'
-      - 'docs/install-macos.md'
-      - '.github/workflows/macos-preview.yml'
   pull_request:
 permissions:
   contents: read
@@ -19,18 +10,20 @@ jobs:
   bundle:
     runs-on: macos-14
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
           persist-credentials: false
-      - uses: astral-sh/setup-uv@v10.2.0
+      - uses: astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7 # v10.2.0
         with:
           python-version: '3.14'
           enable-cache: true
-      - run: uv sync --locked --group bundle
-      - run: uv run --frozen pytest
-      - run: uv run --frozen ruff check .
-      - run: uv run --frozen ruff format --check .
-      - run: uv run --frozen --group bundle python scripts/build_macos.py
+      - run: uv sync --locked --group build --group bundle --no-install-project
+      - run: uv sync --locked --group build --group bundle --no-build-isolation --offline
+      - run: uv run --frozen --group build python scripts/check_build_lock.py macos-preview.yml
+      - run: uv run --frozen --group build pytest
+      - run: uv run --frozen --group build ruff check .
+      - run: uv run --frozen --group build ruff format --check .
+      - run: uv run --frozen --group build --group bundle python scripts/build_macos.py
       - name: Verify archive and install without Python on PATH
         shell: bash
         run: |
@@ -41,8 +34,8 @@ jobs:
           HOME="$install_home" PATH=/usr/bin:/bin /bin/bash "$RUNNER_TEMP/unpacked/Sideword/install.sh" --local "$RUNNER_TEMP/unpacked/Sideword" --no-modify-path
           "$install_home/.local/bin/sideword" --version
           cd "$GITHUB_WORKSPACE"
-          uv run --frozen python scripts/smoke_terminal.py "$install_home/.local/bin/sideword"
-      - uses: actions/upload-artifact@v7.0.2
+          uv run --frozen --group build python scripts/smoke_terminal.py "$install_home/.local/bin/sideword"
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: sideword-macos-arm64
           path: dist/macos/*

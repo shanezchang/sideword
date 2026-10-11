@@ -38,6 +38,13 @@ override for a future custom domain; update canonical URLs and sitemap together.
 
 Check the explicit owner/project with `vercel project inspect --non-interactive`
 before deployment. GitHub `main` is the production source once connected.
+The production alias is configured to wait for `quality`, `verify` and all six
+Python/OS `test` matrix jobs. These checks are connected, not yet evidence of a
+successful end-to-end promotion: verify their first actual run on the same SHA.
+Keep check names aligned with branch protection; do not force-promote a failed or
+pending check. Record the previous production deployment ID before releasing,
+then verify both `/` and `/zh/` after promotion or rollback. The website rollback
+does not change the pinned native release or any local learning database.
 For a manual CLI deployment, run from the **repository root**, not `site/`, because
 the Vercel project's root directory is already `site`. The root `.vercelignore`
 excludes local environments, generated packages, credentials and test artifacts.

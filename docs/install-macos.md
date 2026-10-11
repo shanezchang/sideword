@@ -51,6 +51,49 @@ Apple 公证。浏览器下载后，macOS 可能拦截脚本或程序。确认�
 从 uv 安装切换过来时，旧命令链接会备份，但 uv 环境不会被删除。以后不要混用两个
 安装器升级；如要回到 uv，请重新执行 README 中的 `uv tool install --force ...`。
 
+## 配置、备份与回退 / Settings, backup and rollback
+
+`--quiet` 仅关闭本次自动播放；`M` 保存每页词数，`V` 保存口音，`A` 保存自动播放偏好。
+这些偏好、随机队列、选中位置和自评进度都在数据目录的 `progress.sqlite3`，没有单独配置文件。
+数据目录优先级：`--data-dir` → `$XDG_DATA_HOME/sideword` → `~/.local/share/sideword`。
+升级前退出所有 Sideword 窗口，复制**实际使用的数据目录**到自己选择的备份位置；不要只复制
+正在使用中的 SQLite 主文件（可能还有 WAL）。自带 30 词样例无需另行下载。
+
+安装结束会输出 `Previous launchers`。升级前保存该目录路径，并保留旧 `versions/` 目录。
+如新版本打不开，先退出程序，将下面 `launchers.REPLACE_ME` 换成这次升级产生的备份目录，
+确认它含有旧 `sideword` 和 `Sideword.command` 后，再执行：
+
+```sh
+root="$HOME/.local/opt/sideword"
+backup="$root/backups/launchers.REPLACE_ME"
+# 必须指向一次升级的备份，而非第一次安装的空备份。
+if { [ -f "$backup/sideword" ] || [ -L "$backup/sideword" ]; } &&
+   [ -f "$backup/Sideword.command" ]; then
+    restore=$(mktemp -d "$root/backups/restore.XXXXXX") &&
+    cp -P "$backup/sideword" "$restore/sideword" &&
+    cp -P "$backup/Sideword.command" "$restore/Sideword.command" &&
+    mv -f "$restore/sideword" "$HOME/.local/bin/sideword" &&
+    mv -f "$restore/Sideword.command" "$HOME/Applications/Sideword.command" &&
+    "$HOME/.local/bin/sideword" --version
+else
+    printf 'Choose an upgrade backup containing both previous launchers.\n'
+fi
+```
+
+回退后启动程序，核对词库、当前词、每页词数和已有自评。不要只比较 ZIP 的校验值。
+以上只恢复程序入口，不改学习数据或覆盖当前 shell 配置；若未来版本改了数据库格式，
+先看该版发行说明，再决定是否恢复升级前的数据备份（恢复会丢失备份后的学习记录）。
+目前只有一个公开预览版本，不宣称已经验证跨版本数据库迁移。
+
+Uninstall removes only Sideword's program directory and launchers; keep the actual
+`--data-dir` / XDG data directory to preserve progress. Before an upgrade, close all
+sessions and copy that entire directory. Keep the installer's printed backup path.
+The commands above restore the previous launchers, not your database or shell
+settings. Open the restored app and check the current word and preferences. Do not
+assume a future database migration is downgrade-compatible.
+
+安全问题请使用 [私密报告渠道](https://github.com/shanezchang/sideword/security/advisories/new)，不要在公开 issue 上传词库或数据库。
+
 ## English quick notes
 
 Apple Silicon, macOS 14+. Run the one-line installer above, then open a new terminal

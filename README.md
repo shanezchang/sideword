@@ -28,7 +28,8 @@ Prefer a download? [Get the ZIP](https://github.com/shanezchang/sideword/release
 extract it, then double-click `Install.command`.
 
 This is an **unnotarized preview**. macOS may require explicit approval to open it;
-do not disable system security. [Installation details and uninstall](docs/install-macos.md).
+do not disable system security. [Install, backup, rollback and uninstall](docs/install-macos.md).
+[Report a security issue privately](SECURITY.md).
 
 ### Source install / Linux / developers
 
