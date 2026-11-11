@@ -53,6 +53,14 @@ before deployment. GitHub `main` is the production source once connected.
 The production alias is configured to wait for `quality`, `verify` and all six
 Python/OS `test` matrix jobs. Verify all results against the deployment source SHA
 and read back the formal alias after release; a READY build alone is insufficient.
+The macOS matrix uses `macos-15`: GitHub retired `macos-14` on 2026-11-02.
+When a runner label changes, replace the corresponding Vercel checks with the
+new `source.externalCheckName`, retaining all six matrix checks and their
+production alias blocking stage. Add the replacements before removing the old
+IDs, after the new jobs pass and before merging. Inspect with
+`vercel project checks sideword --scope shanes-projects-025e82ba --json`;
+`vercel project checks add/remove` manages these checks. The PATCH API cannot
+change a check's source.
 Keep check names aligned with branch protection; do not force-promote a failed or
 pending check. Record the previous production deployment ID before releasing,
 then verify both `/` and `/zh/`, font responses and rendered text after promotion
