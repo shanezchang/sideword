@@ -117,7 +117,7 @@ test("crawl assets and not-found response", async ({ request }) => {
     "/sitemap.xml",
     "/assets/mark.svg",
     "/assets/social.png",
-    "/assets/manrope.woff2",
+    "/fonts/maple-latin.woff2",
   ])
     expect((await request.get(path)).status()).toBe(200);
   expect((await request.get("/missing-page/")).status()).toBe(404);

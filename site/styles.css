@@ -1,7 +1,8 @@
 @font-face {
-  font-family: Manrope;
-  src: url("/assets/manrope.woff2") format("woff2");
-  font-weight: 200 800;
+  font-family: "Maple Mono";
+  src: url("/fonts/maple-latin.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 100 800;
   font-display: swap;
 }
 :root {
@@ -16,7 +17,11 @@
   --terminal-text: #f0f7f3;
   --terminal-muted: #bbd1c6;
   color-scheme: light;
-  font-family: Manrope, "PingFang SC", "Noto Sans SC", system-ui, sans-serif;
+  --font-ui:
+    "Maple Mono", "Maple Mono CN", "PingFang SC", "Noto Sans SC", system-ui,
+    sans-serif;
+  --font-code: var(--font-ui);
+  font-family: var(--font-ui);
   font-synthesis: none;
 }
 * {
@@ -32,13 +37,19 @@ body {
   color: var(--ink);
   font-size: 16px;
   line-height: 1.65;
+  overflow-wrap: anywhere;
 }
 a {
   color: inherit;
   text-underline-offset: 5px;
 }
-button {
+button,
+input,
+select,
+textarea {
   font: inherit;
+}
+button {
   color: inherit;
   cursor: pointer;
 }
@@ -73,19 +84,19 @@ h3 {
 h1 {
   font-size: clamp(40px, 3.7vw, 60px);
   line-height: 1.15;
-  letter-spacing: -0.045em;
-  font-weight: 650;
+  letter-spacing: 0;
+  font-weight: 700;
 }
 h2 {
   font-size: clamp(32px, 3vw, 44px);
   line-height: 1.2;
-  letter-spacing: -0.035em;
+  letter-spacing: 0;
   font-weight: 600;
 }
 h3 {
   font-size: 19px;
   line-height: 1.4;
-  font-weight: 650;
+  font-weight: 600;
 }
 p {
   max-width: 65ch;
@@ -119,10 +130,12 @@ a {
 }
 header {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
   min-height: 116px;
   gap: 24px;
+  padding-block: 20px;
 }
 .brand {
   display: inline-flex;
@@ -130,8 +143,8 @@ header {
   gap: 10px;
   text-decoration: none;
   font-size: 29px;
-  font-weight: 750;
-  letter-spacing: -1.4px;
+  font-weight: 700;
+  letter-spacing: 0;
   line-height: 1;
 }
 .brand svg {
@@ -141,6 +154,7 @@ header {
 }
 nav {
   display: flex;
+  flex-wrap: wrap;
   gap: 28px;
   align-items: center;
   font-size: 14px;
@@ -161,7 +175,8 @@ nav a:hover,
   border: 0;
   background: transparent;
   width: 36px;
-  height: 44px;
+  min-width: 1.5em;
+  min-height: 2em;
   font-size: 22px;
   padding: 0;
 }
@@ -172,6 +187,9 @@ nav a:hover,
   gap: 64px;
   padding-top: 72px;
   padding-bottom: 120px;
+}
+:where(.hero, .learning, .install-grid, .faq, .details) > * {
+  min-width: 0;
 }
 .intro {
   font-size: 15px;
@@ -202,7 +220,8 @@ nav a:hover,
   border-radius: 7px;
   text-decoration: none;
   font-size: 14px;
-  font-weight: 650;
+  font-weight: 600;
+  max-width: 100%;
 }
 .primary {
   background: var(--accent);
@@ -225,6 +244,7 @@ nav a:hover,
 }
 .demo-heading {
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
   gap: 16px;
   font-size: 13px;
@@ -241,11 +261,12 @@ nav a:hover,
   border-radius: 12px;
   box-shadow: 0 24px 55px -28px #173a3355;
   overflow: hidden;
-  font-family:
-    ui-monospace, SFMono-Regular, Menlo, Consolas, "PingFang SC", monospace;
+  font-family: var(--font-code);
 }
 .terminal-top {
   display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
   align-items: center;
   justify-content: space-between;
   padding: 18px 22px;
@@ -288,18 +309,18 @@ nav a:hover,
   min-height: 285px;
 }
 .word {
-  font-family: Manrope, sans-serif;
+  font-family: var(--font-ui);
   font-size: 38px;
-  letter-spacing: -1px;
+  letter-spacing: 0;
   line-height: 1.2;
-  font-weight: 550;
+  font-weight: 500;
   overflow-wrap: anywhere;
 }
 .ipa {
   margin-top: 9px;
   color: var(--terminal-muted);
   font-size: 14px;
-  font-family: Manrope, sans-serif;
+  font-family: var(--font-ui);
 }
 .meaning {
   margin-top: 22px;
@@ -318,6 +339,7 @@ nav a:hover,
 }
 .demo-controls {
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
   align-items: center;
   padding: 10px 30px 0;
@@ -531,7 +553,7 @@ nav a:hover,
   line-height: 2;
 }
 code {
-  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-family: var(--font-code);
 }
 p code {
   color: var(--ink);
@@ -615,6 +637,19 @@ footer p {
   flex-wrap: wrap;
   font-size: 13px;
   padding-top: 8px;
+  min-width: 0;
+  max-width: 100%;
+}
+.contact {
+  display: inline-flex;
+  flex-wrap: wrap;
+  column-gap: 0.6em;
+  min-width: 0;
+  max-width: 100%;
+}
+.contact-address {
+  min-width: 0;
+  user-select: text;
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
