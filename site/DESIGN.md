@@ -6,14 +6,17 @@ the source. Not a browser learning service, dashboard or account system.
 ## Direction
 
 Retain Sideword's green identity, improve its mark into two folded strokes forming
-an S: a page turning and a return to a word. Use Manrope's open, rounded lowercase
-for the wordmark instead of generic terminal monospace. The terminal itself retains
-monospace; brand and product UI are intentionally distinct.
+an S: a page turning and a return to a word. Use Maple Mono's rounded forms for
+the wordmark and all web typography,
+including the terminal preview. The existing mark and green design system remain.
 
 Palette: cloud #f7faf8, paper #ffffff, ink #163630, forest #14776b,
 mist #e3f2ec, secondary ink #51665e. Dark mode reverses surface/ink, not semantics.
-Self-host Manrope for Latin, PingFang/Noto Sans SC/system fallback for Chinese.
-Only commands and the terminal demonstration use monospace.
+Self-host Maple Mono v7.9 variable Latin and Maple Mono CN 400/600/700
+subsets for the actual bilingual site vocabulary. UI and code semantic tokens
+share the family. Start with zero tracking and real CN weights; retain
+PingFang/Noto Sans SC/system fallbacks for unknown glyphs and IPA. Preload only
+Latin, use swap, and preserve reflow when fonts are delayed or unavailable.
 
 Borrow Lusion's generous negative space and scale contrast, not its WebGL, fonts or
 assets. Borrow the actual Sideword learning sequence, not a decorative code window.

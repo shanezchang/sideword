@@ -14,7 +14,9 @@ npm run dev
 ```
 
 Browser tests: `npx playwright install chromium`, then `npm test`.
-Test production using `BASE_URL=https://sideword.vercel.app npx playwright test`.
+For production browser checks, intercept `/_vercel/insights/**` and statistics
+collectors before navigation; do not manufacture pageviews. Keep local tests on
+an isolated port (`PORT=...`, matching the test runner URL).
 Regenerate share/icon PNGs with `node render-assets.mjs`; regenerate the vector
 brand from the repository root with the command in `scripts/render_brand.py`.
 
@@ -24,9 +26,19 @@ Edit `content.mjs` for both languages, sample words and release links. Update th
 software version in `build.mjs` alongside the installer URL; avoid implying the
 terminal app has an English interface or a licensed complete IELTS dictionary.
 `styles.css` owns tokens and responsive rules. Brand rationale: `DESIGN.md`.
-Manrope is self-hosted from the pinned Fontsource package under OFL; the build copies
-its license to `/assets/Manrope-OFL.txt`. Logo outlines also ship with the notice
-under `docs/assets/`. No third-party image assets are used.
+Maple Mono v7.9 is self-hosted for all web typography, including the terminal demo,
+code and IPA (with platform fallback for missing glyphs). Latin is variable;
+Chinese uses real 400/600/700 subsets generated from this site's text. Sources,
+OFL, coverage, SHA-256 and regeneration instructions: `public/fonts/README.md`
+and `scripts/subset-maple.py`. The build uses committed WOFF2 assets, preloads
+only Latin, and sets `font-display: swap`. After changing public text, regenerate
+CN coverage and the share card. The existing logo outlines and their original
+notice under `docs/assets/` are retained. No third-party image assets are used.
+
+`contactEmail` in `content.mjs` is the single product contact source:
+`shanechang@agentmail.to`. Both localized footers show the selectable address and mailto alongside
+GitHub Issues and the dedicated private security-report instructions. No web mail
+form or automated response is added.
 
 ## Deployment
 
@@ -39,11 +51,22 @@ override for a future custom domain; update canonical URLs and sitemap together.
 Check the explicit owner/project with `vercel project inspect --non-interactive`
 before deployment. GitHub `main` is the production source once connected.
 The production alias is configured to wait for `quality`, `verify` and all six
-Python/OS `test` matrix jobs. These checks are connected, not yet evidence of a
-successful end-to-end promotion: verify their first actual run on the same SHA.
+Python/OS `test` matrix jobs. Verify all results against the deployment source SHA
+and read back the formal alias after release; a READY build alone is insufficient.
+The macOS matrix uses `macos-15`: GitHub retired `macos-14` on 2026-11-02.
+When a runner label changes, replace the corresponding Vercel checks with the
+new `source.externalCheckName`, retaining all six matrix checks and their
+production alias blocking stage. Add the replacements before removing the old
+IDs, after the new jobs pass and before merging. Inspect with
+`vercel project checks sideword --scope shanes-projects-025e82ba --json`;
+`vercel project checks add/remove` manages these checks. The PATCH API cannot
+change a check's source.
 Keep check names aligned with branch protection; do not force-promote a failed or
 pending check. Record the previous production deployment ID before releasing,
-then verify both `/` and `/zh/` after promotion or rollback. The website rollback
+then verify both `/` and `/zh/`, font responses and rendered text after promotion
+or rollback. Roll back with `vercel rollback <previous-deployment-id>` in the
+explicit project scope, then read back the formal alias; restore automatic
+assignment deliberately on the next approved release. The website rollback
 does not change the pinned native release or any local learning database.
 For a manual CLI deployment, run from the **repository root**, not `site/`, because
 the Vercel project's root directory is already `site`. The root `.vercelignore`

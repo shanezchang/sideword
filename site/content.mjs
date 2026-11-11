@@ -1,6 +1,7 @@
 export const release =
   "https://github.com/shanezchang/sideword/releases/tag/v0.4.0-beta.1";
 export const repo = "https://github.com/shanezchang/sideword";
+export const contactEmail = "shanechang@agentmail.to";
 export const command =
   "curl --proto '=https' --tlsv1.2 -fsSL https://github.com/shanezchang/sideword/releases/download/v0.4.0-beta.1/install.sh | /bin/bash";
 export const words = [
@@ -128,6 +129,7 @@ export const locales = {
       ],
     ],
     footer: "Made by Shane Chang. Built for the small gaps in a day.",
+    contact: "Email",
     guide: "User guide",
     issues: "Feedback",
     security: "Security",
@@ -225,6 +227,7 @@ export const locales = {
       ],
     ],
     footer: "Shane Chang 制作。给日常的间隙，留几个单词。",
+    contact: "邮件联系",
     guide: "使用指南",
     issues: "反馈建议",
     security: "安全报告",
